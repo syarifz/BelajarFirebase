@@ -10,13 +10,23 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
         //Check Authentication
-        startActivity(new Intent(getApplicationContext(), Authentication.class));
+        if(mAuth.getCurrentUser() == null) {
+            startActivity(new Intent(getApplicationContext(), Authentication.class));
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.signOut) {
+            mAuth.signOut();
+            finish();
+            startActivity(new Intent(getApplicationContext(), Authentication.class));
             return true;
         }
 
