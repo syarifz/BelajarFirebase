@@ -14,7 +14,18 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:id="@+id/tvFullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back :)" />
+        android:layout_centerInParent="true"
+        android:textSize="20sp"
+        android:text="Nama" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvFullName"
+        android:layout_centerHorizontal="true"
+        android:text="Email" />
 </RelativeLayout>

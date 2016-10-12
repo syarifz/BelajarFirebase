@@ -9,18 +9,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
+    DatabaseReference mRef, mRoot;
+    FirebaseDatabase mDatabase;
+
+    TextView tvFullName, tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mRoot = mDatabase.getReference();
+
         //Check Authentication
         if(mAuth.getCurrentUser() == null) {
             startActivity(new Intent(getApplicationContext(), Authentication.class));
@@ -39,6 +52,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        tvFullName = (TextView) findViewById(R.id.tvFullName);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
+
+        String userId = mAuth.getCurrentUser().getUid();
+        mRef = mRoot.child("users").child(userId);
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                tvFullName.setText(user.getFullname());
+                tvEmail.setText(user.getEmail());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override

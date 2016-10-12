@@ -121,7 +121,7 @@ public class Authentication extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
                                 String userId = task.getResult().getUser().getUid();
-                                writeNewUser(userId, email, fullName);
+                                writeNewUser(userId, fullName, email);
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             } else {
@@ -133,7 +133,7 @@ public class Authentication extends AppCompatActivity {
         }
     }
 
-    private void writeNewUser(String userId, String email, String fullName) {
+    private void writeNewUser(String userId, String fullName, String email) {
         User user = new User(email, fullName);
         mRoot = mRef.child("users").child(userId);
         mRoot.setValue(user);
