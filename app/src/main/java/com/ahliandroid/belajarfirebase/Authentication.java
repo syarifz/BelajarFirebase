@@ -69,12 +69,44 @@ public class Authentication extends AppCompatActivity {
                 SignUp();
             }
         });
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
+    }
+
+    private void signIn() {
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if(TextUtils.isEmpty(email)) {
+            etEmail.setError("Email is required!");
+        } else if(TextUtils.isEmpty(password)) {
+            etPassword.setError("Password is required!");
+        } else {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Sign In failed!",Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+        }
     }
 
     private void SignUp() {
-        String email = etEmail.getText().toString();
+        final String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
-        String fullName = etFullName.getText().toString();
+        final String fullName = etFullName.getText().toString();
 
         if(TextUtils.isEmpty(email)) {
           etEmail.setError("Email is required!");
@@ -88,6 +120,8 @@ public class Authentication extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
+                                String userId = task.getResult().getUser().getUid();
+                                writeNewUser(userId, email, fullName);
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             } else {
@@ -97,5 +131,11 @@ public class Authentication extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void writeNewUser(String userId, String email, String fullName) {
+        User user = new User(email, fullName);
+        mRoot = mRef.child("users").child(userId);
+        mRoot.setValue(user);
     }
 }

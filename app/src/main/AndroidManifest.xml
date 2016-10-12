@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Authentication"></activity>
+        <activity android:name=".Authentication"
+            android:label="Authentication"></activity>
     </application>
 
 </manifest>
