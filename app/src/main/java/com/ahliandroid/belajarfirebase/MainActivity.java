@@ -47,14 +47,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-/*                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 startActivity(new Intent(getApplicationContext(), Post.class));
             }
         });
 
-/*        tvFullName = (TextView) findViewById(R.id.tvFullName);
-        tvEmail = (TextView) findViewById(R.id.tvEmail);*/
+        tvFullName = (TextView) findViewById(R.id.tvFullName);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
 
         String userId = mAuth.getCurrentUser().getUid();
         mRef = mRoot.child("users").child(userId);
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                tvFullName.setText(user.getFullname());
+                tvFullName.setText(user.getFullName());
                 tvEmail.setText(user.getEmail());
             }
 

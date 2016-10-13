@@ -38,7 +38,6 @@ public class Post extends AppCompatActivity {
         mRoot = mDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
         final String userId = mAuth.getCurrentUser().getUid();
-     //   mRef = mRoot.child("posts").child(userId);
         mUser = mRoot.child("users").child(userId).child("fullName");
         mUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -58,7 +57,7 @@ public class Post extends AppCompatActivity {
                 final String post = etPost.getText().toString();
                 mRef = mRoot.child("posts");
                 final String postKey = mRef.push().getKey();
-                mRef.child(postKey).child("timestamp").setValue(ServerValue.TIMESTAMP);
+                mRef.child(postKey).child(userId).child("timestamp").setValue(ServerValue.TIMESTAMP);
                 Query query = mRef.child(postKey).child(userId).child("timestamp");
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

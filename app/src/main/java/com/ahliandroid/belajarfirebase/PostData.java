@@ -7,15 +7,15 @@ package com.ahliandroid.belajarfirebase;
 public class PostData {
 
     public String post;
-    public String fullname;
+    public String fullName;
     public long timestamp;
 
     public PostData() {
     }
 
-    public PostData(String post, String fullname, long timestamp) {
+    public PostData(String post, String fullName, long timestamp) {
         this.post = post;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.timestamp = timestamp;
     }
 }

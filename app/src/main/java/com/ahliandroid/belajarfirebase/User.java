@@ -6,18 +6,18 @@ package com.ahliandroid.belajarfirebase;
 
 public class User {
     public String email;
-    public String fullname;
+    public String fullName;
 
     public User() {
     }
 
-    public User(String fullname, String email) {
-        this.fullname = fullname;
+    public User(String fullName, String email) {
+        this.fullName = fullName;
         this.email = email;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getEmail() {
